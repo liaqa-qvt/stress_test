@@ -86,8 +86,8 @@ export default function () {
 
   const ok = check(res, {
     'status 200 ou 201': (r) => r.status === 200 || r.status === 201,
-    'tem accessToken':  (r) => r.json('accessToken')  !== undefined,
-    'tem refreshToken': (r) => r.json('refreshToken') !== undefined,
+    'tem accessToken':  (r) => { try { return r.body !== null && r.json('accessToken')  !== undefined; } catch(e) { return false; } },
+    'tem refreshToken': (r) => { try { return r.body !== null && r.json('refreshToken') !== undefined; } catch(e) { return false; } },
     'resposta < 5s':    (r) => r.timings.duration < 5000,
   });
 

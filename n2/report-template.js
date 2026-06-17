@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Relatório de Stress Test — Login</title>
-  <style>
+// @ts-nocheck
+export const css = `
 * {
   box-sizing: border-box;
   margin: 0;
@@ -239,19 +234,30 @@ tr:last-child td {
   font-size: 12px;
   color: #334155;
 }
-</style>
+`;
+
+export function generateReport({ allPassed, verdict, verdictNote, now, totalReqs, errRate, rps, avg, max, p50, p90, p95, p99, thresholds, firstFailureVU, firstFailureIter, firstFailureTime }) {
+  const verdictClass = allPassed ? 'aprovado' : 'reprovado';
+
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relatório de Stress Test — Login</title>
+  <style>${css}</style>
 </head>
 <body>
 <div class="container">
 
   <div class="header">
     <h1>Relatório de Stress Test</h1>
-    <p>Endpoint: <strong>POST /api/v1/auth/login</strong> &nbsp;|&nbsp; Gerado em: 2026-06-17T19:18:29.903Z</p>
+    <p>Endpoint: <strong>POST /api/v1/auth/login</strong> &nbsp;|&nbsp; Gerado em: ${now}</p>
   </div>
 
-  <div class="verdict reprovado">
-    ❌ REPROVADO
-    <p>O endpoint de login apresentou degradação ou falhas acima do limite aceitável em uma ou mais fases.</p>
+  <div class="verdict ${verdictClass}">
+    ${verdict}
+    <p>${verdictNote}</p>
   </div>
 
   <div class="section">
@@ -259,27 +265,27 @@ tr:last-child td {
     <div class="cards">
       <div class="card">
         <div class="label">Total de Requisições</div>
-        <div class="value">62</div>
+        <div class="value">${String(totalReqs).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}</div>
         <div class="unit">requests</div>
       </div>
       <div class="card">
         <div class="label">Taxa de Erro</div>
-        <div class="value" style="color:#ef4444">100.00%</div>
+        <div class="value" style="color:${parseFloat(errRate) < 5 ? '#22c55e' : '#ef4444'}">${errRate}%</div>
         <div class="unit">meta: &lt; 5%</div>
       </div>
       <div class="card">
         <div class="label">Req/s (média)</div>
-        <div class="value">4.10</div>
+        <div class="value">${rps}</div>
         <div class="unit">requests/segundo</div>
       </div>
       <div class="card">
         <div class="label">Tempo Médio</div>
-        <div class="value">207</div>
+        <div class="value">${avg}</div>
         <div class="unit">ms</div>
       </div>
       <div class="card">
         <div class="label">Tempo Máximo</div>
-        <div class="value" style="color:#f1f5f9">337</div>
+        <div class="value" style="color:${parseInt(max) > 5000 ? '#ef4444' : '#f1f5f9'}">${max}</div>
         <div class="unit">ms</div>
       </div>
     </div>
@@ -292,11 +298,11 @@ tr:last-child td {
         <tr><th>Percentil</th><th>Tempo (ms)</th><th>Significado</th></tr>
       </thead>
       <tbody>
-        <tr><td>p50</td><td>N/A ms</td><td>Metade dos usuários tiveram resposta abaixo desse tempo</td></tr>
-        <tr><td>p90</td><td>286 ms</td><td>90% dos usuários tiveram resposta abaixo desse tempo</td></tr>
-        <tr><td>p95</td><td>302 ms</td><td>95% dos usuários tiveram resposta abaixo desse tempo</td></tr>
-        <tr><td>p99</td><td>N/A ms</td><td>99% dos usuários tiveram resposta abaixo desse tempo</td></tr>
-        <tr><td>max</td><td>337 ms</td><td>Pior tempo registrado durante todo o teste</td></tr>
+        <tr><td>p50</td><td>${p50} ms</td><td>Metade dos usuários tiveram resposta abaixo desse tempo</td></tr>
+        <tr><td>p90</td><td>${p90} ms</td><td>90% dos usuários tiveram resposta abaixo desse tempo</td></tr>
+        <tr><td>p95</td><td>${p95} ms</td><td>95% dos usuários tiveram resposta abaixo desse tempo</td></tr>
+        <tr><td>p99</td><td>${p99} ms</td><td>99% dos usuários tiveram resposta abaixo desse tempo</td></tr>
+        <tr><td>max</td><td>${max} ms</td><td>Pior tempo registrado durante todo o teste</td></tr>
       </tbody>
     </table>
   </div>
@@ -338,50 +344,39 @@ tr:last-child td {
         <tr><th>Métrica</th><th>Resultado</th></tr>
       </thead>
       <tbody>
-        
+        ${thresholds.map(t => `
         <tr>
-          <td>http_req_duration{fase:load}</td>
-          <td><span class="badge badge-ok">✅ Passou</span></td>
-        </tr>
-        <tr>
-          <td>http_req_duration{fase:smoke}</td>
-          <td><span class="badge badge-ok">✅ Passou</span></td>
-        </tr>
-        <tr>
-          <td>error_rate{fase:smoke}</td>
-          <td><span class="badge badge-fail">❌ Falhou</span></td>
-        </tr>
-        <tr>
-          <td>error_rate{fase:load}</td>
-          <td><span class="badge badge-ok">✅ Passou</span></td>
-        </tr>
-        <tr>
-          <td>http_req_failed</td>
-          <td><span class="badge badge-fail">❌ Falhou</span></td>
-        </tr>
-        <tr>
-          <td>error_rate{fase:stress}</td>
-          <td><span class="badge badge-ok">✅ Passou</span></td>
-        </tr>
-        <tr>
-          <td>http_req_duration{fase:stress}</td>
-          <td><span class="badge badge-ok">✅ Passou</span></td>
-        </tr>
+          <td>${t.name}</td>
+          <td><span class="badge ${t.passed ? 'badge-ok' : 'badge-fail'}">${t.passed ? '✅ Passou' : '❌ Falhou'}</span></td>
+        </tr>`).join('')}
       </tbody>
     </table>
   </div>
 
   <div class="section">
     <h2>Ponto de Falha</h2>
-    <div class="no-fail">
+    ${firstFailureTime
+      ? `<div class="first-fail">
+          <h3>⚠️ Primeira falha detectada</h3>
+          <p>
+            O sistema começou a falhar no <strong>VU ${firstFailureVU}</strong>,
+            iteração <strong>${firstFailureIter}</strong>,
+            às <code>${firstFailureTime}</code>.<br/><br/>
+            Recomenda-se investigar os logs do servidor nesse horário para identificar a causa raiz
+            (ex: saturação de conexões com banco, timeout de pool, CPU/memória no limite).
+          </p>
+        </div>`
+      : `<div class="no-fail">
           <p>✅ Nenhuma falha detectada durante todo o teste. O servidor se manteve estável em todas as fases.</p>
-        </div>
+        </div>`
+    }
   </div>
 
   <div class="footer">
-    Relatório gerado automaticamente pelo script de stress test K6 &nbsp;|&nbsp; 2026-06-17T19:18:29.903Z
+    Relatório gerado automaticamente pelo script de stress test K6 &nbsp;|&nbsp; ${now}
   </div>
 
 </div>
 </body>
-</html>
+</html>`;
+}

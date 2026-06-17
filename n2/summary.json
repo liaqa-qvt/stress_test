@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-06-17T20:55:58.597Z",
+  "verdict": "REPROVADO",
+  "total_reqs": 38848,
+  "error_rate": "46.19%",
+  "rps": "30.81",
+  "latency": {
+    "p50": "N/A",
+    "p90": "23877",
+    "p95": "25569",
+    "p99": "N/A",
+    "avg": "8231",
+    "max": "60001"
+  },
+  "first_failure": null
+}
