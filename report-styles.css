@@ -1,0 +1,234 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #0f1117;
+  color: #e2e8f0;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.header p {
+  color: #94a3b8;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.verdict {
+  text-align: center;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.verdict p {
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 8px;
+  color: #cbd5e1;
+}
+
+.verdict.aprovado {
+  background: #052e16;
+  border: 2px solid #22c55e;
+  color: #22c55e;
+}
+
+.verdict.reprovado {
+  background: #2d0a0a;
+  border: 2px solid #ef4444;
+  color: #ef4444;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.section h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 8px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.card .label {
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.card .value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.card .unit {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #1e293b;
+  color: #94a3b8;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+  text-align: left;
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #1e293b;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-ok {
+  background: #052e16;
+  color: #22c55e;
+}
+
+.badge-fail {
+  background: #2d0a0a;
+  color: #ef4444;
+}
+
+.phases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.phase-card {
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.phase-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin-bottom: 12px;
+}
+
+.phase-card .row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.phase-card .row span:last-child {
+  color: #f1f5f9;
+  font-weight: 500;
+}
+
+.first-fail {
+  background: #2d1a00;
+  border: 1px solid #f59e0b;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.first-fail h3 {
+  color: #f59e0b;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.first-fail p {
+  font-size: 13px;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.first-fail code {
+  background: #1e293b;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.no-fail {
+  background: #052e16;
+  border: 1px solid #22c55e;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.no-fail p {
+  color: #22c55e;
+  font-size: 14px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 48px;
+  font-size: 12px;
+  color: #334155;
+}
